@@ -1,25 +1,20 @@
 import Head from "next/head";
 import Link from "next/link";
-import { Container, Heading, Button, Grid } from "@chakra-ui/react";
+import { Container, Divider, Heading, Button, Grid } from "@chakra-ui/react";
 
 const content = [
   {
     id: 1,
-    title: "My Profile",
+    title: "NextGen Profile",
     to: "profile",
   },
   {
     id: 2,
-    title: "My Application",
+    title: "ใบสมัครของฉัน",
     to: "application",
   },
   {
     id: 3,
-    title: "My Application",
-    to: "application",
-  },
-  {
-    id: 4,
     title: "My Application",
     to: "application",
   },
@@ -34,18 +29,33 @@ const Home = () => {
       </Head>
       <Container style={{ paddingTop: 20 }} maxW="container.xl">
         <Heading>Home</Heading>
+        <Divider style={{ paddingTop: 20 }}></Divider>
         <Grid
           templateColumns="repeat(2, 1fr)"
           style={{ paddingTop: 20 }}
           gap={4}
         >
-          {content.map((c) => {
+          {/* {content.map((c) => {
             return (
               <Link href={"/" + c.to} passHref key={c.id}>
-                <Button style={{ height: 100 }}>{c.title}</Button>
+                <Button style={{ height: 120 }}>{c.title}</Button>
               </Link>
             );
-          })}
+          })} */}
+          <Link href="/profile" passHref>
+            <Button style={{ height: 120 }}>
+              My NextGen
+              <br />
+              Profile
+            </Button>
+          </Link>
+          <Link href="/settings" passHref>
+            <Button style={{ height: 120 }}>
+              Notification
+              <br />
+              Settings
+            </Button>
+          </Link>
         </Grid>
       </Container>
     </>

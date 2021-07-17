@@ -4,7 +4,7 @@ import Head from "next/head";
 
 import { createClient } from "@supabase/supabase-js";
 
-import { Button, Box, Heading } from "@chakra-ui/react";
+import { Button, Divider, Container, Box, Heading } from "@chakra-ui/react";
 
 interface Profile {
   userId: string;
@@ -80,28 +80,28 @@ const Home = () => {
         <title>Admission NextGen</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <Box style={{ display: hidden }}>
-        {profile && (
-          <div style={{ paddingLeft: 40, paddingRight: 40 }}>
-            <Heading style={{ paddingTop: 30 }} as="h3">
-              My Profile
-            </Heading>
-            <br />
-            {profile.pictureUrl && (
-              <Image
-                src={profile.pictureUrl}
-                alt={profile.displayName}
-                width={200}
-                height={200}
-              />
-            )}
+      <Container style={{ paddingTop: 20 }} maxW="container.xl">
+        <Heading>My Profile</Heading>
+        <Divider style={{ paddingTop: 20 }}></Divider>
+        <Box style={{ display: hidden }}>
+          {profile && (
+            <div style={{ paddingLeft: 40, paddingRight: 40 }}>
+              <br />
+              {profile.pictureUrl && (
+                <Image
+                  src={profile.pictureUrl}
+                  alt={profile.displayName}
+                  width={200}
+                  height={200}
+                />
+              )}
 
-            <div>
-              <br />
-              {/* <b>UUID:</b> {profile.userId}<br/> */}
-              <b>Display Name:</b> {profile.displayName}
-              <br />
-              <p>
+              <div>
+                <br />
+                {/* <b>UUID:</b> {profile.userId}<br/> */}
+                <b>Display Name:</b> {profile.displayName}
+                <br />
+                {/* <p>
                 <b>Subscribe your application now!</b>
               </p>
               <br />
@@ -113,11 +113,12 @@ const Home = () => {
                 }}
               >
                 Subscribe!
-              </Button>
+              </Button> */}
+              </div>
             </div>
-          </div>
-        )}
-      </Box>
+          )}
+        </Box>
+      </Container>
     </>
   );
 };

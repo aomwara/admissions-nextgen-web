@@ -68,7 +68,7 @@ const Navbar = () => {
             color={useColorModeValue("gray.800", "white")}
           >
             <LinkNext href="/" passHref>
-              Admissions NextGen
+              AdmissionsNextGen
             </LinkNext>
           </Text>
 
