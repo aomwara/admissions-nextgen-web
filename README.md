@@ -7,7 +7,7 @@ yarn && yarn dev
 ```
 ## Integration
 Integration with Active Recruitment KMUTT site
-API: `https://aradmission.kmutt.me/api`
+API: `https://aradmission.kmutt.ac.th/api`
 
 ## Technology Stack
 - Line Frontend Framework (LIFF v2)
