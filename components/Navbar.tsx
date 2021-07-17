@@ -25,10 +25,11 @@ import {
   SunIcon,
 } from "@chakra-ui/icons";
 
-export default function Navbar() {
+import LinkNext from "next/link";
+
+const Navbar = () => {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
-  console.log(colorMode);
 
   return (
     <Box>
@@ -66,7 +67,9 @@ export default function Navbar() {
             fontFamily={"heading"}
             color={useColorModeValue("gray.800", "white")}
           >
-            AdmissionNextGen
+            <LinkNext href="/" passHref>
+              Admissions NextGen
+            </LinkNext>
           </Text>
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
@@ -93,7 +96,7 @@ export default function Navbar() {
       </Collapse>
     </Box>
   );
-}
+};
 
 const DesktopNav = () => {
   const linkColor = useColorModeValue("gray.600", "gray.200");
@@ -298,3 +301,5 @@ const NAV_ITEMS: Array<NavItem> = [
     href: "#",
   },
 ];
+
+export default Navbar;
