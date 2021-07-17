@@ -80,21 +80,11 @@ export default function Navbar() {
           direction={"row"}
           spacing={6}
         >
-          {colorMode === "light" && (
-            <IconButton
-              onClick={toggleColorMode}
-              aria-label="Search database"
-              icon={<MoonIcon />}
-            />
-          )}
-
-          {colorMode === "dark" && (
-            <IconButton
-              onClick={toggleColorMode}
-              aria-label="Search database"
-              icon={<SunIcon />}
-            />
-          )}
+          <IconButton
+            onClick={toggleColorMode}
+            aria-label="toggle theme mode"
+            icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
+          />
         </Stack>
       </Flex>
 
