@@ -46,17 +46,12 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log(token);
     if (token !== undefined && token !== null) {
       getARProfile().then((res) => {
         setARProfile(res);
       });
     }
   }, [token]);
-
-  useEffect(() => {
-    console.log(ARprofile);
-  }, [ARprofile]);
 
   const [profile, setProfile] = useState<Profile>({
     userId: "",
@@ -81,7 +76,6 @@ const Home = () => {
     const row = userData?.length;
 
     if (row === 0) {
-      console.log("ok");
       const { data, error } = await supabase
         .from("users")
         .insert([{ id: _id, display_name: name }]);
