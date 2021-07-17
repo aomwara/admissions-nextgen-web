@@ -49,7 +49,7 @@ const Home = () => {
               Profile
             </Button>
           </Link>
-          <Link href="/settings" passHref>
+          <Link href="/auth/login" passHref>
             <Button style={{ height: 120 }}>
               Notification
               <br />

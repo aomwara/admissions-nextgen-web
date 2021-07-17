@@ -4,7 +4,15 @@ import Head from "next/head";
 
 import { createClient } from "@supabase/supabase-js";
 
-import { Button, Divider, Container, Box, Heading } from "@chakra-ui/react";
+import {
+  Button,
+  Divider,
+  Container,
+  Box,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
+import axios from "axios";
 
 interface Profile {
   userId: string;
@@ -12,11 +20,50 @@ interface Profile {
   displayName: string;
 }
 const Home = () => {
+  const [token, setToken] = useState<any>();
+  const [ARprofile, setARProfile] = useState<any>();
+
+  useEffect(() => {
+    const getToken = async () => {
+      const token = await localStorage.getItem("_token");
+      return token;
+    };
+    getToken().then((res) => {
+      setToken(res);
+    });
+  }, []);
+
+  const getARProfile = async () => {
+    const profile = await axios.get(
+      `${process.env.NEXT_PUBLIC_API}/user/profile`,
+      {
+        headers: {
+          Authorization: `Bearer ` + token,
+        },
+      }
+    );
+    return profile.data;
+  };
+
+  useEffect(() => {
+    console.log(token);
+    if (token !== undefined && token !== null) {
+      getARProfile().then((res) => {
+        setARProfile(res);
+      });
+    }
+  }, [token]);
+
+  useEffect(() => {
+    console.log(ARprofile);
+  }, [ARprofile]);
+
   const [profile, setProfile] = useState<Profile>({
     userId: "",
     pictureUrl: "",
     displayName: "",
   });
+
   const [hidden, setHidden] = useState<string>("none");
   const liffId: string = process.env.NEXT_PUBLIC_LIFF_ID
     ? process.env.NEXT_PUBLIC_LIFF_ID
@@ -117,6 +164,22 @@ const Home = () => {
               </div>
             </div>
           )}
+          <Box style={{ padding: 40 }}>
+            {ARprofile && (
+              <>
+                <Heading as="h4" size="md">
+                  Active Recruitment Profile
+                </Heading>
+                <Text>
+                  ชื่อ:
+                  {ARprofile.prefix}
+                  {ARprofile.firstname} {ARprofile.lastname}
+                </Text>
+                <Text>โรงเรียน: {ARprofile.school}</Text>
+                <Text>สร้างบัญชีเมื่อ: {ARprofile.created_at}</Text>
+              </>
+            )}
+          </Box>
         </Box>
       </Container>
     </>
