@@ -22,7 +22,7 @@ const Signin = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const dispatch = useAppDispatch();
-  const { loading, isLogin } = useAppSelector((state) => state.auth);
+  const { loading, isLogin, token } = useAppSelector((state) => state.auth);
   const Router = useRouter();
 
   const login = () => {
@@ -34,10 +34,11 @@ const Signin = () => {
   };
 
   useEffect(() => {
-    if (!loading && isLogin) {
+    if (!loading && isLogin && token) {
+      localStorage.setItem("_token", token);
       Router.push("/");
     }
-  }, [loading, isLogin, Router]);
+  }, [loading, isLogin, Router, token]);
 
   return (
     <>
