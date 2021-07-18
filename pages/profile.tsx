@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Head from "next/head";
+import useAppSelector from "../hooks/useAppSelector";
 
 import { createClient } from "@supabase/supabase-js";
 
@@ -20,38 +21,13 @@ interface Profile {
   displayName: string;
 }
 const Home = () => {
-  const [token, setToken] = useState<any>();
   const [ARprofile, setARProfile] = useState<any>();
+  const { userData } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    const getToken = async () => {
-      const token = await localStorage.getItem("_token");
-      return token;
-    };
-    getToken().then((res) => {
-      setToken(res);
-    });
-  }, []);
-
-  const getARProfile = async () => {
-    const profile = await axios.get(
-      `${process.env.NEXT_PUBLIC_API}/user/profile`,
-      {
-        headers: {
-          Authorization: `Bearer ` + token,
-        },
-      }
-    );
-    return profile.data;
-  };
-
-  useEffect(() => {
-    if (token !== undefined && token !== null) {
-      getARProfile().then((res) => {
-        setARProfile(res);
-      });
-    }
-  }, [token]);
+    console.log("call");
+    setARProfile(userData);
+  }, [setARProfile, userData]);
 
   const [profile, setProfile] = useState<Profile>({
     userId: "",
@@ -64,34 +40,39 @@ const Home = () => {
     ? process.env.NEXT_PUBLIC_LIFF_ID
     : "";
 
-  const supabaseUrl: string = "https://kfhtybzqrokkipfudkbg.supabase.co";
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY
-    ? process.env.NEXT_PUBLIC_SUPABASE_KEY
-    : "";
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  //const supabaseUrl: string = "https://kfhtybzqrokkipfudkbg.supabase.co";
+  //const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY
+  //  ? process.env.NEXT_PUBLIC_SUPABASE_KEY
+  //  : "";
 
-  const insertID = async (_id: string, name: string) => {
-    const userData = await findID(_id);
+  //const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const row = userData?.length;
+  // const insertID = async (_id: string, name: string) => {
+  //   const userData = await findID(_id);
 
-    if (row === 0) {
-      const { data, error } = await supabase
-        .from("users")
-        .insert([{ id: _id, display_name: name }]);
-    }
+  //   const row = userData?.length;
 
-    alert("Done!");
-  };
+  //   if (row === 0) {
+  //     const { data, error } = await supabase
+  //       .from("users")
+  //       .insert([{ id: _id, display_name: name }]);
+  //   }
 
-  const findID = async (_id: string) => {
-    let { data: users, error } = await supabase
-      .from("users")
-      .select("id")
-      .eq("id", _id);
+  //   alert("Done!");
+  // };
 
-    return users;
-  };
+  // const findID = async (_id: string) => {
+  //   let { data: users, error } = await supabase
+  //     .from("users")
+  //     .select("id")
+  //     .eq("id", _id);
+
+  //   return users;
+  // };
+
+  /**
+   * Get Line Profile
+   */
   useEffect(() => {
     const getProfile = async () => {
       const liff = (await import("@line/liff")).default;

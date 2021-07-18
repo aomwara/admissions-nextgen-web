@@ -8,11 +8,17 @@ import { UserProfile } from "../interfaces/UserProfile";
 interface AuthState extends DetaultState {
   token: string;
   isLogin: boolean;
-  process: boolean;
+  userData: {};
 }
 
 interface AuthCheck {
   status: boolean;
+}
+
+interface authData {
+  status: number;
+  token: string;
+  data: UserProfile;
 }
 
 const initialState: AuthState = {
@@ -20,7 +26,7 @@ const initialState: AuthState = {
   hasError: false,
   token: "",
   isLogin: false,
-  process: false,
+  userData: {},
 };
 
 export const Login = createAsyncThunk(
@@ -86,11 +92,7 @@ export const getUserProfile = async (
 const authSlice = createSlice({
   name: "authSlice",
   initialState,
-  reducers: {
-    setProcess: (state, action: PayloadAction<boolean>) => {
-      state.process = true;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(Login.pending, (state) => {
@@ -98,12 +100,13 @@ const authSlice = createSlice({
           state.loading = true;
         }
       })
-      .addCase(Login.fulfilled, (state, action: PayloadAction<string>) => {
+      .addCase(Login.fulfilled, (state, action: PayloadAction<authData>) => {
         if (state.loading === true) {
-          state.token = action.payload;
-          if (state.token !== "") {
+          if (action.payload.status === 200) {
+            state.token = action.payload.token;
             state.isLogin = true;
-            state.process = false;
+            state.userData = action.payload.data;
+          } else {
           }
           state.loading = false;
           state.hasError = false;
@@ -116,5 +119,4 @@ const authSlice = createSlice({
   },
 });
 
-export const { setProcess: setProcess } = authSlice.actions;
 export default authSlice.reducer;
