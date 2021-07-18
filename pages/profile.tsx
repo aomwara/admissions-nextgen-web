@@ -25,7 +25,6 @@ const Home = () => {
   const { userData } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    console.log("call");
     setARProfile(userData);
   }, [setARProfile, userData]);
 

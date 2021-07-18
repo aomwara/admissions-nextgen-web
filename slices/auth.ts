@@ -11,6 +11,11 @@ interface AuthState extends DetaultState {
   userData: {};
 }
 
+interface setAuth {
+  userData: UserProfile;
+  token: string;
+}
+
 interface AuthCheck {
   status: boolean;
 }
@@ -66,9 +71,7 @@ export const authCheck = async (token: string): Promise<AuthCheck> => {
   return Promise.reject(new Error("Auth Check"));
 };
 
-export const getUserProfile = async (
-  token: string
-): Promise<UserProfile | null> => {
+export const getUserProfile = async (token: string): Promise<UserProfile> => {
   try {
     const res = await axios.get<UserProfile>(
       `${apiHost.default}${apiEndpoints.section.user.profile}`,
@@ -83,7 +86,6 @@ export const getUserProfile = async (
     }
   } catch (err) {
     console.log("Cannot Get Profile");
-    return null;
   }
 
   return Promise.reject(new Error("getUserInfo"));
@@ -92,7 +94,13 @@ export const getUserProfile = async (
 const authSlice = createSlice({
   name: "authSlice",
   initialState,
-  reducers: {},
+  reducers: {
+    setAuthState(state, action: PayloadAction<setAuth>) {
+      state.userData = action.payload.userData;
+      state.isLogin = true;
+      state.token = action.payload.token;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(Login.pending, (state) => {
@@ -119,4 +127,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { setAuthState: setAuthState } = authSlice.actions;
 export default authSlice.reducer;
