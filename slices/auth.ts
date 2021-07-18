@@ -42,6 +42,9 @@ const authSlice = createSlice({
       .addCase(Login.fulfilled, (state, action: PayloadAction<string>) => {
         if (state.loading === true) {
           state.token = action.payload;
+          if (state.token !== "") {
+            state.isLogin = true;
+          }
           state.loading = false;
           state.hasError = false;
         }

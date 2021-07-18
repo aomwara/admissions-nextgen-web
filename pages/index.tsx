@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { Container, Divider, Heading, Button, Grid } from "@chakra-ui/react";
+import useAppSelector from "../hooks/useAppSelector";
 
 const content = [
   {
@@ -21,6 +22,10 @@ const content = [
 ];
 
 const Home = () => {
+  const { token, isLogin } = useAppSelector((state: any) => state.auth);
+  console.log("Redux Token => ", token);
+  console.log(isLogin ? "you're login" : "no login");
+
   return (
     <>
       <Head>
