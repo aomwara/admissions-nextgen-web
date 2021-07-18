@@ -45,7 +45,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     } else {
       console.log("Logged in via OAuth Active Recruitment KMUTT");
     }
-  }, [login, isLogin]);
+  }, [loading, login, isLogin]);
 
   return (
     <AuthContext.Provider value={authenticated}>
