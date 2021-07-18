@@ -4,6 +4,8 @@ import { ChakraProvider, useColorMode } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
+import { Provider as ReduxProvider } from "react-redux";
+import store from "../store";
 
 const liffId: string = process.env.NEXT_PUBLIC_LIFF_ID
   ? process.env.NEXT_PUBLIC_LIFF_ID
@@ -27,8 +29,10 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
 
   return (
     <ChakraProvider>
-      <Navbar />
-      <Component {...pageProps} />
+      <ReduxProvider store={store}>
+        <Navbar />
+        <Component {...pageProps} />
+      </ReduxProvider>
     </ChakraProvider>
   );
 };
