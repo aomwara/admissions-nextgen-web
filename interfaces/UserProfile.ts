@@ -1,1 +1,33 @@
-export interface UserProfile {}
+export interface UserProfile {
+  id: number;
+  user_id: number;
+  citizen_id: number;
+  prefix: string;
+  firstname: string;
+  lastname: string;
+  telephone: string;
+  telephone2: string;
+  email: string;
+  facebook: string;
+  lineID: string;
+  address: string;
+  school: string;
+  province: string;
+  edu_type: string;
+  GPA_MTH: string;
+  GPA_SCI: string;
+  GPA_ENG: string;
+  GPAN: string;
+  CRE_MTH: string;
+  CRE_SCI: string;
+  CRE_ENG: string;
+  TOEFL: string;
+  TOEIC: string;
+  IELTS: string;
+  CUTEP: string;
+  transcript: string;
+  line: string;
+  feedback: string;
+  created_at: string;
+  updated_at: string;
+}

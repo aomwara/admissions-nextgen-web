@@ -7,6 +7,9 @@ export const apiEndpoints = {
     auth: {
       login: "/api/login",
     },
+    user: {
+      profile: "/api/user/profile",
+    },
   },
 };
 

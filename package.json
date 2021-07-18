@@ -19,6 +19,7 @@
     "axios": "^0.21.1",
     "eslint-plugin-react-hooks": "^4.2.1-alpha-310187264-20210716",
     "framer-motion": "^4",
+    "js-cookie": "^2.2.1",
     "next": "11.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",

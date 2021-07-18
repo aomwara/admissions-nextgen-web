@@ -5,6 +5,9 @@ import useAppDispatch from "../../hooks/useAppDispatch";
 
 import { Credential } from "../../interfaces/Credential";
 import { Login } from "../../slices/auth";
+import { useRouter } from "next/router";
+
+import { getUserProfile, setProcess } from "../../slices/auth";
 
 import Head from "next/head";
 import {
@@ -22,7 +25,19 @@ const Signin = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const dispatch = useAppDispatch();
-  const { token, loading, hasError } = useAppSelector((state) => state.auth);
+  //const { token, loading, hasError } = useAppSelector((state) => state.auth);
+  const [_token, setToken] = useState<any>();
+  const Router = useRouter();
+
+  useEffect(() => {
+    const getToken = async () => {
+      const token = await localStorage.getItem("_token");
+      return token;
+    };
+    getToken().then((res) => {
+      setToken(res);
+    });
+  }, []);
 
   const login = () => {
     const credential: Credential = {
@@ -30,12 +45,8 @@ const Signin = () => {
       password: password,
     };
     dispatch(Login(credential));
+    Router.push("/");
   };
-
-  useEffect(() => {
-    console.log(loading);
-    console.log(token);
-  }, [loading, token]);
 
   return (
     <>

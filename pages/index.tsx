@@ -22,10 +22,6 @@ const content = [
 ];
 
 const Home = () => {
-  const { token, isLogin } = useAppSelector((state: any) => state.auth);
-  console.log("Redux Token => ", token);
-  console.log(isLogin ? "you're login" : "no login");
-
   return (
     <>
       <Head>
