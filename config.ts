@@ -6,6 +6,7 @@ export const apiEndpoints = {
   section: {
     auth: {
       login: "/api/login",
+      check: "/api/auth/check",
     },
     user: {
       profile: "/api/user/profile",

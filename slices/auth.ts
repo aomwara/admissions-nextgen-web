@@ -11,6 +11,10 @@ interface AuthState extends DetaultState {
   process: boolean;
 }
 
+interface AuthCheck {
+  status: boolean;
+}
+
 const initialState: AuthState = {
   loading: false,
   hasError: false,
@@ -35,6 +39,26 @@ export const Login = createAsyncThunk(
     }
   }
 );
+
+export const authCheck = async (token: string): Promise<AuthCheck> => {
+  try {
+    const res = await axios.get<AuthCheck>(
+      `${apiHost.default}${apiEndpoints.section.auth.check}`,
+      {
+        headers: {
+          Authorization: `Bearer ` + token,
+        },
+      }
+    );
+    if (res.status === 200) {
+      return { status: res.data.status };
+    }
+  } catch {
+    console.log("Cannot Check Auth");
+    return { status: false };
+  }
+  return Promise.reject(new Error("Auth Check"));
+};
 
 export const getUserProfile = async (
   token: string
@@ -77,13 +101,10 @@ const authSlice = createSlice({
       .addCase(Login.fulfilled, (state, action: PayloadAction<string>) => {
         if (state.loading === true) {
           state.token = action.payload;
-          // if (state.token !== "") {
-          //   state.isLogin = true;
-          //   state.process = false;
-          // }
-          console.log("ok");
-          state.isLogin = true;
-          state.process = false;
+          if (state.token !== "") {
+            state.isLogin = true;
+            state.process = false;
+          }
           state.loading = false;
           state.hasError = false;
         }

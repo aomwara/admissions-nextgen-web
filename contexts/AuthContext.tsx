@@ -1,7 +1,6 @@
 import { createContext, useState, useCallback, useEffect } from "react";
-import { getUserProfile } from "../slices/auth";
+import { authCheck } from "../slices/auth";
 import { useRouter } from "next/router";
-import useAppSelector from "../hooks/useAppSelector";
 
 export const AuthContext = createContext(false);
 
@@ -10,13 +9,11 @@ export const AuthProvider: React.FC = ({ children }) => {
   const [token, setToken] = useState<any>();
   const Router = useRouter();
 
-  const { process, isLogin, loading } = useAppSelector((state) => state.auth);
-  console.log(isLogin);
   useEffect(() => {
     const getToken = async () => {
       const token = await localStorage.getItem("_token");
-      if (token === null) {
-        return null;
+      if (token === null || token === undefined) {
+        return "NoToken";
       } else {
         return token;
       }
@@ -28,24 +25,27 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   const login = useCallback(async () => {
     try {
-      if (!isLogin) {
-        Router.push("/auth/signin");
-      } else {
-        setAuthenticated(true);
+      if (token) {
+        const res = await authCheck(token);
+        if (res.status === false) {
+          console.log("Redirect to login via OAuth");
+          Router.push("/auth/signin");
+        } else {
+          setAuthenticated(true);
+        }
       }
     } catch (err) {
       console.log(err);
     }
-  }, [Router, isLogin]);
+  }, [Router, token]);
 
   useEffect(() => {
-    if (!loading && !isLogin) {
-      console.log("Redirect to login via OAuth");
+    if (!authenticated) {
       login();
     } else {
       console.log("Logged in via OAuth Active Recruitment KMUTT");
     }
-  }, [loading, login, isLogin]);
+  }, [authenticated, login]);
 
   return (
     <AuthContext.Provider value={authenticated}>
